@@ -62,3 +62,6 @@ Be careful when downloading the correct haarCascades.
 - [Tech with Tim](https://www.youtube.com/c/TechWithTim)
 - [OpenCV-Documentation](https://docs.opencv.org/4.5.3/)
 - [Net Ninjas](https://www.youtube.com/c/TheNetNinja)
+
+### Contributors List
+- [Mohamed Ayaan](https://github.com/Mohamed-Ayaan358)
