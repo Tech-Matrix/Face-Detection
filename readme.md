@@ -9,7 +9,7 @@
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Mohamed-Ayaan358/Face-Detection)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Tech-Matrix/Face-Detection/pulls?q=is%3Aopen+is%3Apr)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 </div>
@@ -17,7 +17,7 @@
 ---
 
 <p align="center"> 
-  Face detection is an extremely important technology that is used widely around the world and has many uses.
+  Face detection is an extremely important technology that is used widely around the world and has many uses such as combing cctv footage detecting individuals which are used for large scale purposes as well as small scale purposes like unlocking phones
 </p>
 
 ## 📝 Table of Contents
@@ -34,7 +34,7 @@ The aim for this project is to detect the individual's face using a box shape im
 
 Other aims include emotion detection and object identification in the case that there is no presence of a face.
 This repository is written in python and uses the opencv library as it already has tools which can be used to record a live video as well as have a method to mark facial features with certain shapes.
-We utilise HaarCascades so as to avoid having to write a seperate object detection algorithm, however their scope is limited due to limited number of haarCascades.
+We utilise HaarCascades so as to avoid having to write a separate object detection algorithm, however their scope is limited due to limited number of haarCascades.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
@@ -48,8 +48,11 @@ What things you need to install the software and how to install them.
 
 ### 🎈 Usage <a name="usage"></a>
 
-Execute the Python script and note that you have specified your webcam in the script and are not using it for other purposes.
-Be careful when downloading the correct haarCascades.
+1. Download the right python package(3.7).
+1. Be careful when downloading the correct haarCascades.
+1. Execute the Python script.
+1. Note that you have specified your webcam in the script and are not using it for other purposes. [ cv2.VideoCapture(0) ]
+1. Also note the exit button needed to close the program. [ Use cv2.waitkey() ]
 
 ### ⛏️ Built Using <a name = "built_using"></a>
 
@@ -63,5 +66,3 @@ Be careful when downloading the correct haarCascades.
 - [OpenCV-Documentation](https://docs.opencv.org/4.5.3/)
 - [Net Ninjas](https://www.youtube.com/c/TheNetNinja)
 
-### Contributors List
-- [Mohamed Ayaan](https://github.com/Mohamed-Ayaan358)
