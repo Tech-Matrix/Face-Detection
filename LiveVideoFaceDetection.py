@@ -37,43 +37,73 @@ model.add(Dense(7, activation='softmax'))
 
 # emotions will be displayed on your face from the webcam feed
 if mode == "display":
-    model.load_weights('model.h5')
+	model.load_weights('model.h5')
 
-    # prevents openCL usage and unnecessary logging messages
-    cv2.ocl.setUseOpenCL(False)
+	# prevents openCL usage and unnecessary logging messages
+	cv2.ocl.setUseOpenCL(False)
 
-    # dictionary which assigns each label an emotion (alphabetical order)
-    emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
+	# dictionary which assigns each label an emotion (alphabetical order)
+	emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
-    # start the webcam feed
-    face_cascade=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    eye_cascade=cv2.CascadeClassifier('haarcascade_eye.xml')
+	# start the webcam feed
+	face_detect = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+	eyes_detect = cv2.CascadeClassifier('haarcascade_eye.xml')
+	noise_detect = cv2.CascadeClassifier('haarcascade_mcs_nose.xml')
+
+	capture = cv2.VideoCapture(0)
 
 
-    cap=cv2.VideoCapture(0)
-    cap.set(3,1280)
-    cap.set(4,1050)
-    cap.set(10,100)
-    while True:
-        success, img = cap.read()
+	fourcc=cv2.VideoWriter_fourcc(*'XVID')
+	out=cv2.VideoWriter('output.avi',fourcc,20.0,(640,480))
 
-        gray=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        faces=face_cascade.detectMultiScale(gray, 1.3, 4)
-        eye = eye_cascade.detectMultiScale(gray, 1.3,4)
-        for (x,y,w,h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (252, 1, 2), 3)
-            roi_gray = gray[y:y+h,x:x+w]
-            roi_color = img[y:y+h,x: x+w]
-            eyes = eye_cascade.detectMultiScale(roi_gray, 1.03,2)
-            cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
-            prediction = model.predict(cropped_img)
-            maxindex = int(np.argmax(prediction))
-            cv2.putText(img, emotion_dict[maxindex], (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            for (ex,ey,ew,eh) in eyes:
-                cv2.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (0,255,0),1)
-        cv2.imshow("video",img)
-        if cv2.waitKey(1) & 0xFF ==ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+	while True:
+		
+		ret, capturing = capture.read()
+
+		
+		gray = cv2.cvtColor(capturing, cv2.COLOR_BGR2GRAY)
+		face_detection = face_detect.detectMultiScale(gray, 1.3, 5)
+		
+		for (x, y, w, h) in face_detection:
+			cv2.rectangle(capturing, (x, y), (x + w, y + h), (200,200, 255), 2)
+
+			gray_roi = gray[y:y + h, x:x + w]
+			color_roi = capturing[y:y + h, x:x + w]
+
+		
+			eye_detector = eyes_detect.detectMultiScale(gray_roi)
+
+			# cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
+
+			cropped_img = np.expand_dims(np.expand_dims(cv2.resize(gray_roi, (48, 48)), -1), 0)
+			prediction = model.predict(cropped_img)
+			maxindex = int(np.argmax(prediction))
+			cv2.putText(capturing, emotion_dict[maxindex], (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+
+
+		
+			for (eye_x, eye_y, eye_w, eye_h) in eye_detector:
+				cv2.rectangle(color_roi, (eye_x, eye_y), (eye_x + eye_w, eye_y + eye_h), (255, 0, 0), 5)
+
+			
+				nose_detector = noise_detect.detectMultiScale(gray_roi, 1.3, 5)
+
+			for (nose_x, nose_y, nose_w, nose_h) in nose_detector:
+				cv2.rectangle(color_roi, (nose_x, nose_y), (nose_x + nose_w, nose_y + nose_h), (0, 255, 0), 5)
+
+				
+		if ret==True:
+			out.write(capturing)
+
+		
+		cv2.imshow("Real-time Detection", capturing)
+
+		c = cv2.waitKey(1)
+		if c == 27:
+			break
+
+
+	capture.release()
+
+	cv2.destroyAllWindows()
