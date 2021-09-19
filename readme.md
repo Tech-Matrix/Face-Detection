@@ -53,12 +53,15 @@ What things you need to install the software and how to install them.
 1. Execute the Python script.
 1. Note that you have specified your webcam in the script and are not using it for other purposes. [ cv2.VideoCapture(0) ]
 1. Also note the exit button needed to close the program. [ Use cv2.waitkey() ]
+1.Make certain TensorFlow downloaded
+1.Run this command:- python LiveVideoFaceDetection.py --mode display
 
 ### ⛏️ Built Using <a name = "built_using"></a>
 
-- [Python](https://www.python.org/downloads/release/python-370/) - Language
-- [OpenCV](https://sourceforge.net/projects/opencvlibrary/) - Additional Library
+- [Python](https://www.python.org/downloads/release/python-370) - Language
+- [OpenCV](https://sourceforge.net/projects/opencvlibrary) - Additional Library
 - [HaarCascades](https://github.com/opencv/opencv/tree/master/data/haarcascades) - HaarCascades
+- [TensorFlow](https://www.tensorflow.org)
 
 ### 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
